@@ -30,6 +30,16 @@ def uploadNewsHtmlS3(url):
     
 
 def getEltiempoNews():
+    """
+    La siguiente función procesa el archivo eltiempo.HTML que se encuentra en el direcctorio 
+    temporal de Lambda, para ello utiliza los XPATH de la categoria, el título y 
+    extrae el texto, url.
+
+    Exceptions: 
+        ValueError: Cuando el tamaño de las listas no coincide después de procesar los titulos,
+        se llenan los espacios vacios con 0.
+    """
+
     file = open('/tmp/eltiempo.html', encoding="utf-8")
     soup = BeautifulSoup(file, "html.parser")
 
@@ -55,6 +65,16 @@ def getEltiempoNews():
 
 
 def getPublimetroNews():
+    """
+    La siguiente función procesa el archivo publimetro.HTML que se encuentra en el direcctorio 
+    temporal de Lambda, para ello utiliza los XPATH de la categoria, el título y 
+    extrae el texto, url.
+
+    Exceptions: 
+        ValueError: Cuando el tamaño de las listas no coincide después de procesar los titulos,
+        se llenan los espacios vacios con 0.
+    """
+
     file = open('/tmp/publimetro.html', encoding="utf-8")
     soup = BeautifulSoup(file, "html.parser")
 
