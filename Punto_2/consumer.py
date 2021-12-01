@@ -1,15 +1,18 @@
-from kafka import KafkaProducer
-import csv
-import json
+from kafka import KafkaConsumer
+import numpy as np
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer$
 
-with open('SPY_TICK_TRADE.csv','r') as file:
-        reader = csv.DictReader(file, delimiter = "\t")
-        for row in reader:
-                for datos in row.values():
-                        TIME, PRICE, SIZE, EXCHANGE, SALE_CONDITION, SUSPICIOUS$
-                        print(PRICE)
+consumer = KafkaConsumer('parcial3',
+                         bootstrap_servers=['localhost:9092'])
 
-                        producer.send('parcial3', PRICE)
-                        producer.flush()
+lista = []
+for PRICE in consumer:
+        valor = PRICE.value.decode('utf-8')
+        mod = valor.strip('"')
+        valor =  int(mod)
+        lista.append( valor )
+        print(chr(27)+"[1;32m"+f'Promedio: {sum(lista)/len(lista)} | Maximo: {max(lista)} | Minimo: {min(lista)}' )
+        if valor < (2* np.std(lista)):
+                print(chr(27)+"[1;31m"+f' El valor {valor} esta dos veces  debajo de la desviacion estandar')
+        if valor > (2* np.std(lista)):
+                print(chr(27)+"[1;31m"+f' El valor {valor} esta dos veces  arriba de la desviacion estandar')
